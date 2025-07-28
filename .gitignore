@@ -1,0 +1,4 @@
+#ignore the venv
+venv/
+codigos/
+__pycache__/
