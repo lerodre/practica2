@@ -1,0 +1,42 @@
+descargar myruita device manager para usar para subir apps y os image al device de flex sense
+
+descargar flexsense sdk para jugar a crear apps y editar firmware
+correr el dev container si es en windows (ubuntu recomendado)
+
+si se hace en windows lo que se debe hacer es attachear el usb al wsl, de esta forma al correr el dev container este puede id el flex
+
+seguir instrucciones del readme
+
+descargar y crear cuenta en ngrok
+levantar instancia de flask escuchando localhost puerto a convenir:
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/", methods=["POST"])
+def receive():
+    print("Received request:")
+    print(request.json)
+    return "OK", 200
+
+if __name__ == "__main__":
+    app.run(port=5000)
+
+levantar instancia de ngrok despues de abrir la aplicacion de desk se abre el cmd: ngrok http --url=cougar-factual-osprey.ngrok-free.app 80
+
+tips de apps, usar gnss, para que funcione sacar el flex para afuera para que pueda encontrar su ubicacion y tener un tiempo correcto
+
+comandos para buildear en flex sdk;
+meson configure build -Dskip_gnss = false //esto es para que se pueda activar a desactivar el gnss al buildear
+meson compile -C build //para armar las aplicaciones .bin que se suben al flexsensor mediante el device manager
+
+
+en el archivo meson.build: linea 50 aprox, esta el #add your proyects soruce file to this array, ahi va la ruta a los .c que son las apps pal flex
+
+Requisitos:
+- docker
+- wsl
+- python3
+- mosquito 2.0.22 or greater
+
+

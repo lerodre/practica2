@@ -1,0 +1,8 @@
+{
+  "Timestamp": 1752542693,
+  "Id": "d2d9639a-38af-4dc5-a10b-6c3a108636f4",
+  "Data": "{\"Packets\": [{\"Timestamp\": 1752542693775, \"TerminalId\": \"005e92a51c\", \"Value\": \"12345\"}]}",
+  "EndpointRef": "sZ3c_skySLuq:_b9BNqLXTDaJ",
+  "Signature": "IIGY07b1kfHbwWE5gHxsR5JiOsw+/Wx99WH0pvKL5gP9uG55qDCURoXJuXJcj1cKHe1tTu1/S3xcA30Bkizowni4NLHkkV0IzInEtPOIthla3i9EZZVJYLvYw6OcjnRiZTkg5xJyIcwfSC/H4+xHaGpv42TqREbYVod5uoQqBB3ZTL0u2GbqOSLTBlHjPd+KOSZNEUaoSX9bbzOFXOvwCO/L9n5NYuDw9plHy5AxZxqUokO2FN1IeaiBF4reqgaAnfCEMXC9KvTmltnxkUtNyQRgXmvwU1DQylXOiA9s3v1LwblH5jE7n3KwZZUvvmjrhkJBZ9fnQ3ZPMaKmJAdcyw==",
+  "CertificateUrl": "https://security.myriota.com/data-13f7751f3c5df569a6c9c42a9ce73a8a.crt"
+}

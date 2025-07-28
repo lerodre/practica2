@@ -1,0 +1,29 @@
+project('testnumber1', 'c')
+
+# Include the flex library
+flex_dep = dependency('flex', required: true)
+
+# Source files
+c_files = files([
+    'testnumber1.c'
+])
+
+# Create the executable
+testnumber1_exe = executable('testnumber1', 
+    c_files,
+    dependencies: flex_dep,
+    install: false
+)
+
+# Create the .bin file for flashing
+testnumber1_bin = custom_target('testnumber1.bin',
+    input: testnumber1_exe,
+    output: 'testnumber1.bin',
+    command: [
+        find_program('arm-none-eabi-objcopy'),
+        '-O', 'binary',
+        '@INPUT@',
+        '@OUTPUT@'
+    ],
+    build_by_default: true
+)

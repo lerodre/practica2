@@ -1,0 +1,19 @@
+{
+  "source": "myriota",
+  "timestamp": "2025-07-25T22:39:07.876536",
+  "terminal_id": "005e92a51c",
+  "device_id": "flex_5e92a51c",
+  "sensor_id": "sensor_generic",
+  "raw_data": {
+    "Timestamp": 1753497545,
+    "Id": "db6cc099-9fde-4e99-a83f-68a33c136c72",
+    "Data": "{\"Packets\": [{\"Timestamp\": 1753497086049, \"TerminalId\": \"005e92a51c\", \"Value\": \"6956ac462e4f9400bef707a61bcbfd19fcfbbf9f\"}]}",
+    "EndpointRef": "sZ3c_skySLuq:_b9BNqLXTDaJ",
+    "Signature": "gJn1ciSumhJytZdNySSbv7c/iw9IiG64KhKt2eXSLS91OjzdLMXPP2ypE5UWeGECRHnWWyaCQ6yWGR7uaC10pG6eXTeXIbbmt5pngYH42VDnoS38raT0b+PltRnKfR0zzYWkvlcSrGqVY6e3T5ZqVv5NbtsOgxOfa6nSdYzMC0r4c8cxpCDmSiWoh6hMxONGqCXQsH1lsDaslpyeO0GVCesDsDlUMRuLMkL8lvKtI2YMcTgZM/WgorpQquP61VonrHkfViF78ZWPLQe8512Jx81IocJQDGdecUW4l71oEgdN/VGdbPMf6p9vtx+X7BOdJdIrhkxwaB1eM2425cuPbg==",
+    "CertificateUrl": "https://security.myriota.com/data-13f7751f3c5df569a6c9c42a9ce73a8a.crt"
+  },
+  "decoded_data": {
+    "raw_hex": "6956ac462e4f9400bef707a61bcbfd19fcfbbf9f",
+    "raw_bytes": 20
+  }
+}
