@@ -462,4 +462,4 @@ if __name__ == "__main__":
     print("📡 HTTP Endpoints: /myriota, /data")
     
     # Use port 80 and disable debug for stability
-    app.run(debug=False, port=80, host='0.0.0.0', threaded=True)
+    app.run(debug=False, port=5000, host='0.0.0.0', threaded=True)
