@@ -40,3 +40,10 @@ Requisitos:
 - mosquito 2.0.22 or greater
 
 
+hallazgos so far:
+- generalmente hay tres pasadas diaras solidas para el SDK2, una la madrugada, en la tarde y en la noche (es bastante exacto el tiempo send). 
+- testeos se hicieon con un LOS de menos de 180 grados, fueron como 70-100 grados max de LOS.
+- 20 mensajes diarios cada 24 horas.
+- flex funciona con hex, asi que hay que aprovechar sigmentos de 4 bits para enviarle info
+
+
