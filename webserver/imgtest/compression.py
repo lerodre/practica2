@@ -427,13 +427,13 @@ def create_test_comparison(original_path, results):
     plt.close()
 
 if __name__ == "__main__":
-    # Use the Lena image
-    input_image = "webserver/imgtest/lena.jpg"
+    # Use the Cameraman image
+    input_image = "cameraman.png"
     
     # Check if the image exists
     if not os.path.exists(input_image):
         print(f"❌ Error: '{input_image}' not found in current directory!")
-        print("Please make sure 'lena.jpg' is in the same folder as this script.")
+        print("Please make sure 'cameraman.png' is in the same folder as this script.")
         exit(1)
     
     # Process the image

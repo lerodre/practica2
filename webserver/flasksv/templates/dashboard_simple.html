@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlexSense Data Manager (Simplified)</title>
+    <title>Gestor de Datos FlexSense (Simplificado)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -122,23 +122,22 @@
 </head>
 <body>
     <div class="header">
-        <h1>📡 FlexSense Data Manager (Simplified)</h1>
-        <p>HTTP-only sensor data collection - No MQTT required</p>
+        <h1>Gestor de Datos FlexSense</h1>
         <p>Ngrok: cougar-factual-osprey.ngrok-free.app</p>
     </div>
 
     <div class="stats">
         <div class="stat-card">
             <h3>{{ devices|length }}</h3>
-            <p>Auto-Discovered Devices</p>
+            <p>Dispositivos Auto-detectados</p>
         </div>
         <div class="stat-card">
             <h3 id="total-sensors">0</h3>
-            <p>Total Sensors</p>
+            <p>Total de Sensores</p>
         </div>
         <div class="stat-card">
             <h3 id="total-files">0</h3>
-            <p>Data Files</p>
+            <p>Archivos de Datos</p>
         </div>
     </div>
 
@@ -149,8 +148,8 @@
                 <div class="device-header">
                     <div class="device-name">{{ device_id }}</div>
                     <div class="device-actions">
-                        <button class="btn-action btn-rename" onclick="renameDevice('{{ device_id }}')" title="Rename Device">Edit</button>
-                        <button class="btn-action btn-delete" onclick="deleteDevice('{{ device_id }}')" title="Delete Device">Delete</button>
+                        <button class="btn-action btn-rename" onclick="renameDevice('{{ device_id }}')" title="Renombrar Dispositivo">Editar</button>
+                        <button class="btn-action btn-delete" onclick="deleteDevice('{{ device_id }}')" title="Eliminar Dispositivo">Eliminar</button>
                     </div>
                 </div>
                 
@@ -160,22 +159,22 @@
                     <li class="sensor-item">
                         <span class="sensor-info" onclick="window.location.href='/device/{{ device_id }}/sensor/{{ sensor.name }}'">
                             <span class="sensor-name">{{ sensor.name }}</span>
-                            <span class="file-count">{{ sensor.file_count }} files</span>
+                            <span class="file-count">{{ sensor.file_count }} archivos</span>
                         </span>
-                        <button class="btn-action btn-delete" onclick="deleteSensor('{{ device_id }}', '{{ sensor.name }}')" title="Delete Sensor">Delete</button>
+                        <button class="btn-action btn-delete" onclick="deleteSensor('{{ device_id }}', '{{ sensor.name }}')" title="Eliminar Sensor">Eliminar</button>
                     </li>
                     {% endfor %}
                 </ul>
                 {% else %}
-                <p style="color: #666; text-align: center;">No sensor data yet</p>
+                <p style="color: #666; text-align: center;">Aún no hay datos de sensores</p>
                 {% endif %}
             </div>
             {% endfor %}
         </div>
     {% else %}
         <div class="no-devices">
-            <h3>No devices found</h3>
-            <p>Send data to the endpoints above and devices will appear automatically!</p>
+            <h3>No se encontraron dispositivos</h3>
+            <p>¡Envía datos a los endpoints de arriba y los dispositivos aparecerán automáticamente!</p>
         </div>
     {% endif %}
 
@@ -199,7 +198,7 @@
 
         // Device management functions
         function deleteDevice(deviceId) {
-            if (confirm(`Are you sure you want to delete device "${deviceId}" and all its data?`)) {
+            if (confirm(`¿Estás seguro de que quieres eliminar el dispositivo "${deviceId}" y todos sus datos?`)) {
                 fetch(`/api/device/${deviceId}`, { method: 'DELETE' })
                     .then(response => response.json())
                     .then(data => {
@@ -209,12 +208,12 @@
                             alert('Error: ' + data.message);
                         }
                     })
-                    .catch(error => alert('Error deleting device: ' + error));
+                    .catch(error => alert('Error eliminando dispositivo: ' + error));
             }
         }
 
         function renameDevice(deviceId) {
-            const newName = prompt(`Enter new name for device "${deviceId}":`, deviceId);
+            const newName = prompt(`Ingresa el nuevo nombre para el dispositivo "${deviceId}":`, deviceId);
             if (newName && newName !== deviceId) {
                 fetch(`/api/device/${deviceId}/rename`, {
                     method: 'POST',
@@ -229,12 +228,12 @@
                         alert('Error: ' + data.message);
                     }
                 })
-                .catch(error => alert('Error renaming device: ' + error));
+                .catch(error => alert('Error renombrando dispositivo: ' + error));
             }
         }
 
         function deleteSensor(deviceId, sensorId) {
-            if (confirm(`Are you sure you want to delete sensor "${sensorId}" and all its data?`)) {
+            if (confirm(`¿Estás seguro de que quieres eliminar el sensor "${sensorId}" y todos sus datos?`)) {
                 fetch(`/api/device/${deviceId}/sensor/${sensorId}`, { method: 'DELETE' })
                     .then(response => response.json())
                     .then(data => {
@@ -244,7 +243,7 @@
                             alert('Error: ' + data.message);
                         }
                     })
-                    .catch(error => alert('Error deleting sensor: ' + error));
+                    .catch(error => alert('Error eliminando sensor: ' + error));
             }
         }
     </script>

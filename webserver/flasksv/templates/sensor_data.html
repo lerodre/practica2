@@ -161,20 +161,20 @@
 <body>
     <div class="header">
         <div class="breadcrumb">
-            <a href="/">Dashboard</a> > {{ device_id }} > {{ sensor_id }}
+            <a href="/">Panel de Control</a> > {{ device_id }} > {{ sensor_id }}
         </div>
         <h1>{{ sensor_id }}</h1>
-        <p>Device: {{ device_id }}</p>
+        <p>Dispositivo: {{ device_id }}</p>
     </div>
 
     <div class="stats">
         <div class="stat-card">
             <h3>{{ files|length }}</h3>
-            <p>Data Files</p>
+            <p>Archivos de Datos</p>
         </div>
         <div class="stat-card">
-            <h3 id="latest-file">{{ files[0].timestamp if files else 'No data' }}</h3>
-            <p>Latest Reading</p>
+            <h3 id="latest-file">{{ files[0].timestamp if files else 'Sin datos' }}</h3>
+            <p>Última Lectura</p>
         </div>
     </div>
 
@@ -187,17 +187,17 @@
                     <div class="file-timestamp">{{ file.timestamp }}</div>
                 </div>
                 <div class="file-actions">
-                    <button class="btn btn-view" onclick="viewFile('{{ file.path }}', '{{ file.name }}')">View</button>
-                    <button class="btn btn-download" onclick="downloadFile('{{ file.path }}', '{{ file.name }}')">Download</button>
-                    <button class="btn btn-delete" onclick="deleteFile('{{ file.path }}', '{{ file.name }}')">Delete</button>
+                    <button class="btn btn-view" onclick="viewFile('{{ file.path }}', '{{ file.name }}')">Ver</button>
+                    <button class="btn btn-download" onclick="downloadFile('{{ file.path }}', '{{ file.name }}')">Descargar</button>
+                    <button class="btn btn-delete" onclick="deleteFile('{{ file.path }}', '{{ file.name }}')">Eliminar</button>
                 </div>
             </div>
             {% endfor %}
         </div>
     {% else %}
         <div class="no-files">
-            <h3>No data files found</h3>
-            <p>This sensor hasn't sent any data yet</p>
+            <h3>No se encontraron archivos de datos</h3>
+            <p>Este sensor aún no ha enviado ningún dato</p>
         </div>
     {% endif %}
 
@@ -205,10 +205,10 @@
     <div id="dataPreview" class="data-preview">
         <div class="preview-content">
             <div class="preview-header">
-                <h3 id="previewTitle">Data Preview</h3>
+                <h3 id="previewTitle">Vista Previa de Datos</h3>
                 <button class="close-btn" onclick="closePreview()">✕</button>
             </div>
-            <pre id="previewData">Loading...</pre>
+            <pre id="previewData">Cargando...</pre>
         </div>
     </div>
 
@@ -230,8 +230,8 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Fetch error:', error);
-                    document.getElementById('previewData').textContent = 'Error loading file: ' + error;
+                    console.error('Error de carga:', error);
+                    document.getElementById('previewData').textContent = 'Error cargando archivo: ' + error;
                 });
         }
 
@@ -251,7 +251,7 @@
         }
 
         function deleteFile(filepath, filename) {
-            if (confirm(`Are you sure you want to delete "${filename}"?`)) {
+            if (confirm(`¿Estás seguro de que quieres eliminar "${filename}"?`)) {
                 fetch('/api/file/delete', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -265,7 +265,7 @@
                         alert('Error: ' + data.message);
                     }
                 })
-                .catch(error => alert('Error deleting file: ' + error));
+                .catch(error => alert('Error eliminando archivo: ' + error));
             }
         }
 

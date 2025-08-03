@@ -3,6 +3,7 @@ from datetime import datetime
 import os
 import json
 import urllib.parse
+import shutil
 
 app = Flask(__name__)
 
@@ -40,7 +41,7 @@ def organize_sensor_data(device_id, sensor_id, data):
     with open(filepath, 'w') as f:
         json.dump(data, f, indent=2)
     
-    print(f"✔️ Data saved to: {filepath}")
+    print(f"✔️ Datos guardados en: {filepath}")
     return filepath
 
 def parse_flexsense_data(terminal_id, hex_value):
@@ -66,7 +67,7 @@ def parse_flexsense_data(terminal_id, hex_value):
         return device_id, sensor_id
         
     except Exception as e:
-        print(f"Error parsing FlexSense data: {e}")
+        print(f"Error analizando datos FlexSense: {e}")
         return f"flex_{terminal_id}", "sensor_error"
 
 def decode_sensor_value(hex_value, sensor_type):
@@ -104,7 +105,7 @@ def decode_sensor_value(hex_value, sensor_type):
         return decoded
         
     except Exception as e:
-        print(f"Error decoding sensor value: {e}")
+        print(f"Error decodificando valor del sensor: {e}")
         return {"raw_hex": hex_value, "decode_error": str(e)}
 
 def extract_device_sensor_info(data):
@@ -139,10 +140,10 @@ def delete_device_data(device_id):
         device_path = os.path.join(BASE_DATA_DIR, device_id)
         if os.path.exists(device_path):
             shutil.rmtree(device_path)
-            print(f"Deleted device data: {device_path}")
+            print(f"Datos de dispositivo eliminados: {device_path}")
         return True
     except Exception as e:
-        print(f"Error deleting device {device_id}: {e}")
+        print(f"Error eliminando dispositivo {device_id}: {e}")
         return False
 
 def delete_sensor_data(device_id, sensor_id):
@@ -152,11 +153,11 @@ def delete_sensor_data(device_id, sensor_id):
         sensor_path = os.path.join(BASE_DATA_DIR, device_id, sensor_id)
         if os.path.exists(sensor_path):
             shutil.rmtree(sensor_path)
-            print(f"Deleted sensor data: {sensor_path}")
+            print(f"Datos de sensor eliminados: {sensor_path}")
             return True
         return False
     except Exception as e:
-        print(f"Error deleting sensor {device_id}/{sensor_id}: {e}")
+        print(f"Error eliminando sensor {device_id}/{sensor_id}: {e}")
         return False
 
 def rename_device(old_device_id, new_device_id):
@@ -166,10 +167,10 @@ def rename_device(old_device_id, new_device_id):
         new_path = os.path.join(BASE_DATA_DIR, new_device_id)
         if os.path.exists(old_path):
             os.rename(old_path, new_path)
-            print(f"Renamed device: {old_device_id} -> {new_device_id}")
+            print(f"Dispositivo renombrado: {old_device_id} -> {new_device_id}")
         return True
     except Exception as e:
-        print(f"Error renaming device {old_device_id} to {new_device_id}: {e}")
+        print(f"Error renombrando dispositivo {old_device_id} a {new_device_id}: {e}")
         return False
 
 def delete_json_file(filepath):
@@ -177,11 +178,11 @@ def delete_json_file(filepath):
     try:
         if os.path.exists(filepath):
             os.remove(filepath)
-            print(f"Deleted file: {filepath}")
+            print(f"Archivo eliminado: {filepath}")
             return True
         return False
     except Exception as e:
-        print(f"Error deleting file {filepath}: {e}")
+        print(f"Error eliminando archivo {filepath}: {e}")
         return False
 
 # Web Routes
@@ -268,7 +269,7 @@ def receive_myriota_data():
     """Myriota satellite network HTTP POST endpoint"""
     try:
         data = request.get_json()
-        print(f"📡 Myriota Data Received: {json.dumps(data, indent=2)}")
+        print(f"📡 Datos Myriota Recibidos: {json.dumps(data, indent=2)}")
         
         # Extract Myriota-specific fields - TerminalId is nested in Data field
         terminal_id = None
@@ -279,16 +280,16 @@ def receive_myriota_data():
             try:
                 # Parse the nested JSON string in the Data field
                 data_content = json.loads(data["Data"])
-                print(f"📦 Parsed Data Content: {json.dumps(data_content, indent=2)}")
+                print(f"📦 Contenido de Datos Analizados: {json.dumps(data_content, indent=2)}")
                 
                 # Extract from Packets array
                 if "Packets" in data_content and len(data_content["Packets"]) > 0:
                     packet = data_content["Packets"][0]  # Take first packet
                     terminal_id = packet.get("TerminalId")
                     hex_value = packet.get("Value")
-                    print(f"🔍 Extracted - TerminalId: {terminal_id}, Value: {hex_value}")
+                    print(f"🔍 Extraído - TerminalId: {terminal_id}, Value: {hex_value}")
             except json.JSONDecodeError as e:
-                print(f"❌ Error parsing nested Data JSON: {e}")
+                print(f"❌ Error analizando JSON anidado de Datos: {e}")
         
         # Fallback to direct fields if nested parsing failed
         if not terminal_id and "TerminalId" in data:
@@ -338,7 +339,7 @@ def receive_myriota_data():
         }), 200
         
     except Exception as e:
-        print(f"❌ Error processing Myriota data: {e}")
+        print(f"❌ Error procesando datos Myriota: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 # Generic HTTP POST endpoint
@@ -347,7 +348,7 @@ def receive_http_data():
     """Generic HTTP endpoint for receiving sensor data"""
     try:
         data = request.get_json()
-        print(f"📨 HTTP Data Received: {json.dumps(data, indent=2)}")
+        print(f"📨 Datos HTTP Recibidos: {json.dumps(data, indent=2)}")
         
         # Extract device and sensor info
         device_id, sensor_id = extract_device_sensor_info(data)
@@ -366,43 +367,43 @@ def receive_http_data():
         
         return jsonify({
             "status": "success",
-            "message": "Data received and saved",
+            "message": "Datos recibidos y guardados",
             "device_id": device_id,
             "sensor_id": sensor_id,
             "filepath": filepath
         }), 200
         
     except Exception as e:
-        print(f"❌ Error processing HTTP data: {e}")
+        print(f"❌ Error procesando datos HTTP: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
 @app.route("/api/device/<device_id>", methods=["DELETE"])
 def delete_device(device_id):
     """Delete a device and all its data"""
     if delete_device_data(device_id):
-        return jsonify({"status": "success", "message": f"Device {device_id} deleted"})
+        return jsonify({"status": "success", "message": f"Dispositivo {device_id} eliminado"})
     else:
-        return jsonify({"status": "error", "message": "Failed to delete device"}), 500
+        return jsonify({"status": "error", "message": "Error al eliminar dispositivo"}), 500
 
 @app.route("/api/device/<device_id>/rename", methods=["POST"])
 def rename_device_endpoint(device_id):
     """Rename a device"""
     new_name = request.json.get("new_name")
     if not new_name:
-        return jsonify({"status": "error", "message": "New name required"}), 400
+        return jsonify({"status": "error", "message": "Se requiere nuevo nombre"}), 400
     
     if rename_device(device_id, new_name):
-        return jsonify({"status": "success", "message": f"Device renamed to {new_name}"})
+        return jsonify({"status": "success", "message": f"Dispositivo renombrado a {new_name}"})
     else:
-        return jsonify({"status": "error", "message": "Failed to rename device"}), 500
+        return jsonify({"status": "error", "message": "Error al renombrar dispositivo"}), 500
 
 @app.route("/api/device/<device_id>/sensor/<sensor_id>", methods=["DELETE"])
 def delete_sensor(device_id, sensor_id):
     """Delete a sensor and all its data"""
     if delete_sensor_data(device_id, sensor_id):
-        return jsonify({"status": "success", "message": f"Sensor {sensor_id} deleted"})
+        return jsonify({"status": "success", "message": f"Sensor {sensor_id} eliminado"})
     else:
-        return jsonify({"status": "error", "message": "Failed to delete sensor"}), 500
+        return jsonify({"status": "error", "message": "Error al eliminar sensor"}), 500
 
 @app.route("/api/file/delete", methods=["POST", "DELETE"])
 def delete_file():
@@ -414,7 +415,7 @@ def delete_file():
         filepath = request.json.get("filepath") if request.json else request.args.get("path")
     
     if not filepath:
-        return jsonify({"success": False, "error": "Filepath required"}), 400
+        return jsonify({"success": False, "error": "Se requiere ruta de archivo"}), 400
     
     # Security check - ensure file is within our data directory
     normalized_path = os.path.normpath(filepath)
@@ -422,19 +423,19 @@ def delete_file():
     absolute_file = os.path.abspath(normalized_path)
     
     if not absolute_file.startswith(absolute_base):
-        return jsonify({"success": False, "error": "Access denied"}), 403
+        return jsonify({"success": False, "error": "Acceso denegado"}), 403
     
     if delete_json_file(normalized_path):
-        return jsonify({"success": True, "message": "File deleted"})
+        return jsonify({"success": True, "message": "Archivo eliminado"})
     else:
-        return jsonify({"success": False, "error": "Failed to delete file"}), 500
+        return jsonify({"success": False, "error": "Error al eliminar archivo"}), 500
 
 @app.route("/api/file/download")
 def download_file():
     """Download a JSON file"""
     filepath = request.args.get('path')
     if not filepath:
-        return jsonify({"error": "No file path provided"}), 400
+        return jsonify({"error": "No se proporcionó ruta de archivo"}), 400
     
     # Security check
     decoded_filepath = urllib.parse.unquote(filepath)
@@ -443,10 +444,10 @@ def download_file():
     absolute_file = os.path.abspath(normalized_path)
     
     if not absolute_file.startswith(absolute_base):
-        return jsonify({"error": "Access denied"}), 403
+        return jsonify({"error": "Acceso denegado"}), 403
     
     if not os.path.exists(normalized_path):
-        return jsonify({"error": "File not found"}), 404
+        return jsonify({"error": "Archivo no encontrado"}), 404
     
     try:
         return send_file(normalized_path, as_attachment=True, 
@@ -455,11 +456,11 @@ def download_file():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    print("🚀 Starting Simplified FlexSense Data Manager")
-    print(f"📁 Data Directory: {BASE_DATA_DIR}")
-    print(f"📁 Absolute Data Path: {os.path.abspath(BASE_DATA_DIR)}")
-    print(f"🌐 Ngrok Domain: {NGROK_DOMAIN}")
-    print("📡 HTTP Endpoints: /myriota, /data")
+    print(" Iniciando Gestor de Datos FlexSense")
+    print(f" Directorio de Datos: {BASE_DATA_DIR}")
+    print(f" Ruta Absoluta de Datos: {os.path.abspath(BASE_DATA_DIR)}")
+    print(f" Dominio Ngrok: {NGROK_DOMAIN}")
+    print(" Endpoints HTTP: /myriota, /data")
     
     # Use port 80 and disable debug for stability
     app.run(debug=False, port=5000, host='0.0.0.0', threaded=True)

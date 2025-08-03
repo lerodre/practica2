@@ -2,3 +2,7 @@
 venv/
 codigos/
 __pycache__/
+*.JPG
+*.png
+*.psd
+*.jpeg
