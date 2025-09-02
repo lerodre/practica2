@@ -40,7 +40,7 @@ Requisitos:
 - mosquito 2.0.22 or greater
 
 
-hallazgos so far:
+hallazgos:
 - generalmente hay tres pasadas diaras solidas para el SDK2, una la madrugada, en la tarde y en la noche (es bastante exacto el tiempo send). 
 - testeos se hicieon con un LOS de menos de 180 grados, fueron como 70-100 grados max de LOS.
 - 20 mensajes diarios cada 24 horas.
